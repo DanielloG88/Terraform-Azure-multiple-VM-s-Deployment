@@ -60,3 +60,9 @@ resource "azurerm_lb_rule" "Port443" {
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.LB_backend.id]
   probe_id                       = azurerm_lb_probe.example.id
 }
+resource "azurerm_lb_probe" "example" {
+  resource_group_name = azurerm_resource_group.Rg_name.name
+  loadbalancer_id     = azurerm_lb.LoadBalancer.id
+  name                = "ssh-running-probe"
+  port                = 22
+}
