@@ -57,26 +57,3 @@ resource "azurerm_public_ip" "PublicIPForVM" {
   allocation_method   = "Static"
   sku                 = "standard"
 }
-
-resource "azurerm_network_security_group" "NSG" {
-  name                = "acceptanceTestSecurityGroup1"
-  location            = azurerm_resource_group.Rg_name.location
-  resource_group_name = azurerm_resource_group.Rg_name.name
-
-  security_rule {
-    name                       = "test123"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "TCP"
-    source_port_range          = "*"
-    destination_port_ranges    = var.Ports
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
-resource "azurerm_network_interface_security_group_association" "SubnetNetworkSecurityGroup" {
-  count = var.Node_count
-  network_interface_id                 = element(azurerm_network_interface.NetworkInt.*.id, count.index)
-  network_security_group_id = azurerm_network_security_group.NSG.id
-}
