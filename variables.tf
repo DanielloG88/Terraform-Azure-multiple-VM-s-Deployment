@@ -15,6 +15,6 @@ variable "Node_count" {
   default = 3
 }
 variable "Ports" {
-  type    = list(number)
+  type    = set(string)
   default = [22, 443, 80]
 }

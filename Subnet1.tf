@@ -10,14 +10,22 @@ resource "azurerm_network_security_group" "NSG" {
   resource_group_name = azurerm_resource_group.Rg_name.name
 }
 
+locals { 
+  NSG_maps = { 
+  "100" : ["22"],
+  "110" : ["80"],
+  "120" : ["443"]}
+}
+
 resource "azurerm_network_security_rule" "NSG_RULES" {
-  name                       = "test123"
-  priority                   = "100"
+  for_each                   = local.NSG_maps
+  name                       = "test123-${each.key}"
+  priority                   = each.key
   direction                  = "Inbound"
   access                     = "Allow"
   protocol                   = "TCP"
   source_port_range          = "*"
-  destination_port_ranges    = var.Ports
+  destination_port_ranges    = each.value
   source_address_prefix      = "*"
   destination_address_prefix = "*"
   resource_group_name        = azurerm_resource_group.Rg_name.name
