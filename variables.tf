@@ -12,7 +12,7 @@ variable "NetworkName" {
 }
 variable "Node_count" {
   type    = number
-  default = 3
+  default = 1
 }
 variable "Ports" {
   type    = set(string)
